@@ -1,35 +1,29 @@
-# chat_server
+# clj-chat
 
-FIXME: description
+Just a small telnet chat server written in Clojure.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+* Install [leiningen](https://github.com/technomancy/leiningen)
+* git clone https://github.com/nevern02/clj-chat.git
+* lein run
 
 ## Usage
 
-FIXME: explanation
-
-    $ java -jar chat_server-0.1.0-standalone.jar [args]
+Start the server.  Connect via telnet on port 2300.
 
 ## Options
 
-FIXME: listing of options this app accepts.
+Change the port or anything else in the source.
 
-## Examples
+## Contributing
 
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+* Fork it.
+* Make your changes.
+* Submit a pull request.
 
 ## License
 
-Copyright © 2013 FIXME
+Copyright © 2013 [Brandon Rice](http://blrice.net)
 
 Distributed under the Eclipse Public License, the same as Clojure.

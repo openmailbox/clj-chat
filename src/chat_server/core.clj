@@ -1,4 +1,4 @@
-(ns chat-server.core
+(ns clj-chat.core
   (:gen-class)
   (:import (java.net ServerSocket)
            (java.io PrintWriter InputStreamReader BufferedReader)))
