@@ -5,7 +5,7 @@
 
 (def port 2300)
 (def users (atom []))
-(declare new-user)
+(declare new-user announce)
 
 (defn run-server 
   "Main server loop to be run in a separate thread."
@@ -14,24 +14,31 @@
     (loop [socket (.accept server)]
       (let [out (PrintWriter. (.getOutputStream socket) true)
             in (BufferedReader. (InputStreamReader. (.getInputStream socket)))]
-        (swap! users conj {:out out, :in in})
-        (println "Client connected." (count @users) "total clients.")
+        (println "Client connected." (inc (count @users)) "total clients.")
         (.start (Thread. #(new-user in out)))
         (recur (.accept server))))))
 
 (defn new-user
   "Handle a newly connected user."
   [in out]
-  (.print out "Welcome!\n\n> ")
-  (.flush out)
+  (let [user {:out out, :in in}
+        user-name (inc (count @users))]
+    (announce (str "User " user-name " connected.\n> "))
+    (swap! users conj user)
+    (.print out "Welcome!\n\n> ")
+    (.flush out))
   (loop [string (.readLine in)]
-    (.print out "> ")
-    (doseq [user @users]
-      (let [out (get user :out)]
-        (.print out string)
-        (.flush out)))
+    (announce (str "User " (inc (.indexOf @users {:out out, :in in})) ": " string "\n> "))
     (recur (.readLine in))))
     
+(defn announce
+  "Send a string to all connections."
+  [string]
+  (doseq [user @users]
+    (let [out (get user :out)]
+      (.print out (str string))
+      (.flush out))))
+
 (defn -main
   "A simple telnet based chat server."
   [& args]
